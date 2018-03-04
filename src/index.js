@@ -6,6 +6,7 @@ import { numbers } from './components/search_bar';
 import SearchBar from './components/search_bar';
 import VideoList from './components/video_list';
 import VideoDetail from './components/video_detail';
+import _ from 'lodash';
 
 import YOUTUBE_API_KEY from './config/Youtube_API';
 
@@ -16,19 +17,15 @@ class App extends React.Component {
 
         this.state = { videos : [], selectedVideo : null };
        
-        YTSearch({key : YOUTUBE_API_KEY, term : "selena gomez"}, (videos) => {
-            this.setState( { 
-                videos , //used when key and variable name are meant to same in ES6
-                selectedVideo : videos ? videos[0] : null
-            } 
-        );
+        this.onSearch("Selena Gomez");
             //ES5 this.setState({ videos : videos });
-        });
     }
     render (){
+        const onSearch = _.debounce((term) => this.onSearch(term),300);
+
         return (    //if ( ) this brackets are not used than the <div> element must be next to return ;
         <div>
-            <SearchBar onSearch={ (term) =>  this.onSearch(term) } />
+            <SearchBar onSearch={ onSearch } />
             <VideoDetail video={this.state.selectedVideo} />
             <VideoList videos={this.state.videos} onVideoSelect={ (selectedVideo) => this.setState({selectedVideo})} />
             
