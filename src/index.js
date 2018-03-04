@@ -1,15 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
 
-import App from './components/app';
-import reducers from './reducers';
+const YOUTUBE_API_KEY = "AIzaSyBfBnV46vv9_mjPHWkICL4q8zcEjEYS5Z8";
 
-const createStoreWithMiddleware = applyMiddleware()(createStore);
+//Create a components(set of HTML tags) that can be rendered inside DOM
+const App = function(){
+    return <div>Hi!!!!!!</div>
+}
 
-ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers)}>
-    <App />
-  </Provider>
-  , document.querySelector('.container'));
+// const App = () => <div>Hi!!!!!!</div>;  // equals above code
+
+//Tell React to display the component that are developed and place it onto the DOM
+ReactDOM.render(<App />,document.querySelector(".container"));
