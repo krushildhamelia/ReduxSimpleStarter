@@ -4,6 +4,8 @@ import YTSearch from 'youtube-api-search';
 
 import { numbers } from './components/search_bar';
 import SearchBar from './components/search_bar';
+import VideoList from './components/video_list';
+import VideoDetail from './components/video_detail';
 
 import YOUTUBE_API_KEY from './config/Youtube_API';
 
@@ -12,19 +14,36 @@ class App extends React.Component {
     constructor(props){
         super(props);
 
-        this.state = { videos : [] };
+        this.state = { videos : [], selectedVideo : null };
        
         YTSearch({key : YOUTUBE_API_KEY, term : "selena gomez"}, (videos) => {
-            this.setState( { videos } );
+            this.setState( { 
+                videos , //used when key and variable name are meant to same in ES6
+                selectedVideo : videos ? videos[0] : null
+            } 
+        );
             //ES5 this.setState({ videos : videos });
-        })
+        });
     }
     render (){
         return (    //if ( ) this brackets are not used than the <div> element must be next to return ;
         <div>
-            <SearchBar />
+            <SearchBar onSearch={ (term) =>  this.onSearch(term) } />
+            <VideoDetail video={this.state.selectedVideo} />
+            <VideoList videos={this.state.videos} onVideoSelect={ (selectedVideo) => this.setState({selectedVideo})} />
+            
         </div>
         );
+    }
+
+    onSearch(term){
+            YTSearch({key : YOUTUBE_API_KEY, term }, (videos) => {
+                this.setState( { 
+                    videos , //used when key and variable name are meant to same in ES6
+                    selectedVideo : videos ? videos[0] : null
+                } 
+            );
+        });
     }
         
     

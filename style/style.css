@@ -1,0 +1,8 @@
+.search-bar input{
+    width: 75%;
+    margin: 30px 0px;
+}
+
+.list-group-item{
+    cursor: pointer;
+}
