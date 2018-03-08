@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+
 import YTSearch from 'youtube-api-search';
 
 import { numbers } from './components/search_bar';
@@ -7,16 +10,20 @@ import SearchBar from './components/search_bar';
 import VideoList from './components/video_list';
 import VideoDetail from './components/video_detail';
 import _ from 'lodash';
+import AppRedux from './components/app';
+import reducers from './reducers/reducer_index';
 
 import YOUTUBE_API_KEY from './config/Youtube_API';
 
+
+const createStoreWithMiddleware = applyMiddleware()(createStore);
 //Create a components(set of HTML tags) that can be rendered inside DOM
 class App extends React.Component {
     constructor(props){
         super(props);
 
         this.state = { videos : [], selectedVideo : null };
-       
+
         this.onSearch("Selena Gomez");
             //ES5 this.setState({ videos : videos });
     }
@@ -28,7 +35,10 @@ class App extends React.Component {
             <SearchBar onSearch={ onSearch } />
             <VideoDetail video={this.state.selectedVideo} />
             <VideoList videos={this.state.videos} onVideoSelect={ (selectedVideo) => this.setState({selectedVideo})} />
-            
+
+            <Provider store={createStoreWithMiddleware(reducers)} >
+                <AppRedux />
+            </Provider>
         </div>
         );
     }

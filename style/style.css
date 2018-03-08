@@ -6,3 +6,7 @@
 .list-group-item{
     cursor: pointer;
 }
+
+.redux{
+    background: #ccc;
+}
